@@ -1374,6 +1374,36 @@ function cancel_revenue($OID)
 	}
 }
 
+
+function getgoogl($url, $qr=NULL){
+	if(function_exists('curl_init')){
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, 'http://goo.gl/api/shorten');
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, 'security_token=null&url='.urlencode($url));
+
+		$results = curl_exec($ch);
+		$headerInfo = curl_getinfo($ch);
+		curl_close($ch);
+
+		if ($headerInfo['http_code'] === 201){ // HTTP Code 201 = Created
+			$results = json_decode($results);
+			if(isset($results->short_url)){
+				$qr = !is_null($qr)?'.qr':'';
+				return $results->short_url.$qr;
+			}
+			return FALSE;
+		}
+		return FALSE;	
+
+	}
+	trigger_error("cURL required to shorten URLs.", E_USER_WARNING); // Show the user a neat error.
+	return FALSE;
+}
+
+
+	
 function insert_get_short_url($a)
 {
     global $conn, $config;
@@ -1382,40 +1412,41 @@ function insert_get_short_url($a)
 	$sshort = stripslashes($a['short']);
 	$SSEO = stripslashes($a['seo']);
 	$SSEO = str_replace(" ", "+", $SSEO);
-	$scriptolution_url = $config['baseurl']."/".$SSEO."/".$SPID."/".$stitle;
+	$short_url = $config['baseurl']."/".$SSEO."/".$SPID."/".$stitle;
 	if($SPID > 0)
 	{
+		//if we have set a short URL
 		if($sshort == "")
 		{
-			$takenurl =  file_get_contents("http://www.taken.to/scriptolution.php?url=".$scriptolution_url);
+			$takenurl =  getgoogl($short_url);
 			if($takenurl != "")
 			{
-				$sshort = str_replace("http://www.taken.to/", "", $takenurl);
+				$sshort = str_replace("http://goo.gl/", "", $takenurl);
 				if($sshort != "")
 				{
 					$query = "UPDATE posts SET short='".mysql_real_escape_string($sshort)."' WHERE PID='".mysql_real_escape_string($SPID)."'";
 					$conn->execute($query);
-					$rme = 	"http://www.taken.to/".$sshort;
+					$rme = 	"http://goo.gl/".$sshort;
 				}
 				else
 				{
-					$rme = 	$scriptolution_url;	
+					$rme = 	$short_url;	
 				}
 			}
 			else
 			{
-				$rme = 	$scriptolution_url;
+				$rme = 	$short_url;
 			}
 			
 		}
 		else
 		{
-			$rme = 	"http://www.taken.to/".$sshort;
+			$rme = 	"http://goo.gl/".$sshort;
 		}
 	}
 	else
 	{
-		$rme = 	$scriptolution_url;
+		$rme = 	$short_url;
 	}
 	return $rme;
 } 

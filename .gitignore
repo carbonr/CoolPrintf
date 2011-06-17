@@ -1,2 +1,6 @@
 .tpl.php
 /temporary/9ad047134d977b506a6a678714c3e9c5dc395f6b.file.sub_bit.tpl.php
+*.tpl.php
+$.tpl.php
+\.tpl.php$
+/temporary/f5fc2c171ee340859cc3eb11a85fb46e228d4687.file.bit.tpl.php
