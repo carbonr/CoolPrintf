@@ -3042,6 +3042,11 @@ margin:0;
 padding:4px;
 }
 
+
+input#continue {
+background: #08F;
+width: 40px;
+}
 .wrapper .compose-form input.button {
 border:none;
 padding:0;
@@ -3250,7 +3255,7 @@ margin:0;
 
 .inner {
 min-width:860px;
-background:#66b0d8;
+background:#EEEEEE;
 }
 
 .inner #header .menu-holder .holder {
@@ -3484,7 +3489,7 @@ height:100%;
 .logo-placer {
 position:relative;
 left:12px;
-top:49px;
+top:50px;
 }
 
 #main {
@@ -3979,7 +3984,7 @@ margin:-1px 0 0 10px;
 
 .iwill input.text {
 width:370px;
-height:22px;
+height:26px;
 color:#999;
 font:18px Arial,Helvetica,sans-serif;
 border:1px solid #c6c6d4;
@@ -7106,7 +7111,7 @@ float:left;
 display:block;
 color:#E5E4E4;
 text-decoration:none;
-padding:8px 10px;
+padding:9px 10px 10px;
 }
 
 * html .topmenu ul li a {
@@ -7155,7 +7160,7 @@ color:#003;
 
 .downarrowclass {
 position:absolute;
-top:12px;
+top:14px;
 right:7px;
 }
 
@@ -7516,6 +7521,7 @@ margin-right:5px;
 text-decoration:none;
 font-weight:700;
 }
+
 
 .login input.button {
 float:right;
